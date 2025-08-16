@@ -5,7 +5,13 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "node --watch --watch-path=src src/app.js"
+    "start": "node --watch --watch-path=src src/app.js",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev",
+    "db:reset": "npx prisma migrate reset",
+    "db:push": "npx prisma db push",
+    "db:deploy": "npx prisma migrate deploy",
+    "test:mock": "node test/send-mock-webhook.js"
   },
   "repository": {
     "type": "git",

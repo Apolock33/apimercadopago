@@ -7,12 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model pedidos {
-  id            Int      @id @default(autoincrement())
-  pedidoId      String   @unique
-  status        String
-  valorTotal    Float
-  dataCriacao   DateTime
+model Pedidos {
+  id            BigInt   @id
+  status        String?
+  idPagamento   String?
+  valorTotal    Decimal? @db.Decimal(18, 2)
+  valorPago     Decimal? @db.Decimal(18, 2)
+  idComprador   BigInt?
+  nomeComprador String?
+  idVendedor    BigInt?
+  itensPedidos  Json?
+  raw_json      Json?
   criadoEm      DateTime @default(now())
   atualizadoEm  DateTime @updatedAt
+
+  @@index([idVendedor])
+  @@index([idComprador])
+  @@index([status])
 }
