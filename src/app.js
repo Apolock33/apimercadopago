@@ -1,14 +1,14 @@
-import express from "express";
 import "dotenv/config";
+import express from "express";
+import mercadopago from './routes/mercadopagoRoutes.js'
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.json({ message: "API rodando" });
-});
+app.use('/mercadopago', mercadopago);
 
-app.listen(process.env.PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${process.env.PORT}`);
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

@@ -7,21 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pedidos {
-  id            BigInt   @id
-  status        String?
-  idPagamento   String?
-  valorTotal    Decimal? @db.Decimal(18, 2)
-  valorPago     Decimal? @db.Decimal(18, 2)
-  idComprador   BigInt?
-  nomeComprador String?
-  idVendedor    BigInt?
-  itensPedidos  Json?
-  raw_json      Json?
-  criadoEm      DateTime @default(now())
-  atualizadoEm  DateTime @updatedAt
-
-  @@index([idVendedor])
-  @@index([idComprador])
-  @@index([status])
+model OrderNotification {
+  id             String   @id @default(cuid())
+  notificationId String   @unique
+  action         String
+  apiVersion     String
+  applicationId  String
+  dateCreated    DateTime
+  liveMode       Boolean
+  type           String
+  userId         Int
+  orderId        String // Vem de data.id
 }
