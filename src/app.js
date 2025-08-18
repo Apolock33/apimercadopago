@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import mercadopago from './routes/mercadopagoRoutes.js'
+import mercadopago from './routes/mercadopagoRoutes.js';
 
 const app = express();
 
