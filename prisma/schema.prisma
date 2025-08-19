@@ -8,13 +8,15 @@ datasource db {
 }
 
 model OrderNotification {
-  id             String   @id
-  action         String
-  api_version    String
-  application_id String
-  date_created   DateTime
-  live_mode      Boolean
-  type           String
-  user_id        Int
-  data           Json
+  id            String   @id 
+  action        String
+  apiVersion    String
+  applicationId String
+  dateCreated   DateTime
+  liveMode      Boolean
+  type          String
+  userId        Int
+  dataId        String
+
+  @@map("order_notifications")
 }

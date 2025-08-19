@@ -1,5 +1,4 @@
 import { prisma } from "../db/prisma.js";
-import { OrderNotification } from "../models/orderNotification.js";
 
 export const postMPOrders = async (body) => {
   try {
@@ -7,15 +6,37 @@ export const postMPOrders = async (body) => {
       throw new Error("Body inválido ou vazio");
     }
 
+    const data = {
+      id: body.id,
+      action: body.action,
+      apiVersion: body.api_version,
+      applicationId: String(body.application_id ?? ""),
+      dateCreated: new Date(body.date_created),
+      liveMode: Boolean(body.live_mode),
+      type: body.type,
+      userId: Number(body.user_id),
+      dataId: String(body.data?.id ?? ""),
+    };
+
     const saved = await prisma.orderNotification.upsert({
-      where: { id: String(OrderNotification(body).id) },
-      create: OrderNotification(body),
-      update: OrderNotification(body)
+      where: { id: data.id },
+      create: data,
+      update: data
     });
 
     return saved;
   } catch (error) {
     console.error("Erro ao salvar notificação:", error);
+    throw error;
+  }
+};
+
+export const getNotificationsCount = async () => {
+  try {
+    const count = await prisma.orderNotification.count();
+    return count;
+  } catch (error) {
+    console.error("Erro ao contar notificações:", error);
     throw error;
   }
 };
