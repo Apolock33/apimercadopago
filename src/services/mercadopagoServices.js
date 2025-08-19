@@ -1,3 +1,4 @@
+import { api } from "../db/api.js";
 import { prisma } from "../db/prisma.js";
 
 export const postMPOrders = async (body) => {
@@ -18,18 +19,33 @@ export const postMPOrders = async (body) => {
       dataId: String(body.data?.id ?? ""),
     };
 
-    const saved = await prisma.orderNotification.upsert({
-      where: { id: data.id },
-      create: data,
-      update: data
-    });
+    if (data.type === "payment") {
 
-    return saved;
+      const saved = await prisma.orderNotification.upsert({
+        where: { id: data.id },
+        create: data,
+        update: data
+      });
+
+      return saved;
+    }
+
+    return;
   } catch (error) {
     console.error("Erro ao salvar notificação:", error);
     throw error;
   }
 };
+
+export const getAllPayments = async () => {
+  try {
+    const response = await api.get("/payments/search");
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao salvar notificação:", error);
+    throw error;
+  }
+}
 
 export const getNotificationsCount = async () => {
   try {

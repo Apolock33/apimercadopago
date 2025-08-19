@@ -1,4 +1,5 @@
-import { postMPOrders, getNotificationsCount } from "../services/mercadopagoServices.js";
+import { postMPOrders, getNotificationsCount, getAllPayments } from "../services/mercadopagoServices.js";
+import "dotenv/config"
 
 export const createOrderData = async (req, res) => {
     try {
@@ -16,6 +17,31 @@ export const createOrderData = async (req, res) => {
         });
     }
 }
+
+export const searchPaymentsList = async (req, res) => {
+    try {
+        const result = await getAllPayments();
+
+        return res.status(200).json({
+            success: true,
+            message: "Dados recuperados",
+            data: result.results,
+        });
+    } catch (error) {
+        const errorResponse = {
+            success: false,
+            message: "Erro ao processar notificação",
+            erro: error.message,
+        };
+
+        if (error.response) {
+            errorResponse.status = error.response.status;
+            errorResponse.data = error.response.data;
+        }
+
+        return res.status(500).json(errorResponse);
+    }
+};
 
 export const returnNotificationsCount = async (req, res) => {
     try {
